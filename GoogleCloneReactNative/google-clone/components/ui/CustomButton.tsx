@@ -13,9 +13,18 @@ export default function CustomButton({
 }: CustomButtonProps) {
   return (
     <Pressable
-      onPress={onPress}
-      style={[styles.button, isActive && styles.activeButton]}>
-      <Text style={[styles.buttonText, isActive && styles.activeButtonText]}>
+      style={[
+        styles.button,
+        isActive && styles.activeButton,
+        title === 'Sign In' && styles.signInButton,
+      ]}
+      onPress={onPress}>
+      <Text
+        style={[
+          styles.buttonText,
+          isActive && styles.activeButtonText,
+          title === 'Sign In' && styles.signInButtonText,
+        ]}>
         {title}
       </Text>
     </Pressable>
@@ -30,7 +39,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
   },
   activeButton: {
-    borderBottomColor: 'blue',
+    borderBottomColor: '#1a73e8',
   },
   buttonText: {
     fontSize: 14,
@@ -38,6 +47,15 @@ const styles = StyleSheet.create({
     color: 'grey',
   },
   activeButtonText: {
-    color: 'blue',
+    color: '#1a73e8',
+  },
+  signInButton: {
+    backgroundColor: '#1a73e8',
+    borderRadius: 4,
+    padding: 33,
+    paddingHorizontal: 20,
+  },
+  signInButtonText: {
+    color: 'white',
   },
 });

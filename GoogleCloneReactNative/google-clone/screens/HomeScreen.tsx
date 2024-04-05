@@ -1,13 +1,19 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
 import CustomButton from '../components/ui/CustomButton';
 
 export default function HomeScreen() {
   const [activeTab, setActiveTab] = useState('ALL');
+  const [imageIsPressed, setImageIsPressed] = useState(false);
 
-  const handleTabPress = (tab: string) => {
+  function handleTabPress(tab: string) {
     setActiveTab(tab);
-  };
+  }
+
+  function handleImagePress() {
+    setImageIsPressed(prev => !prev);
+    console.log(imageIsPressed ? 'Unpressed' : 'Pressed');
+  }
 
   return (
     <View style={styles.rootContainer}>
@@ -25,11 +31,23 @@ export default function HomeScreen() {
           />
         </View>
         <View style={styles.headerRight}>
-          <Text>Apps</Text>
+          <Pressable onPress={handleImagePress}>
+            {({pressed}) => (
+              <View
+                style={[
+                  styles.imageContainer,
+                  pressed && styles.pressed,
+                  imageIsPressed && styles.pressed,
+                ]}>
+                <Image source={require('../assets/icons/apps.png')} />
+              </View>
+            )}
+          </Pressable>
+
           <CustomButton
             title="Sign In"
             isActive={false}
-            onPress={() => console.log('Pressed')}
+            onPress={() => Linking.openURL('https://www.youtube.com/')}
           />
         </View>
       </View>
@@ -55,5 +73,17 @@ const styles = StyleSheet.create({
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  imageContainer: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    borderRadius: 25,
+    marginHorizontal: 10,
+  },
+  pressed: {
+    backgroundColor: '#cccccc',
   },
 });
