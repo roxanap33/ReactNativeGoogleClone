@@ -4,7 +4,7 @@ import CustomButton from '../components/ui/CustomButton';
 import SearchInput from '../components/SearchInput';
 import Logo from '../components/Logo';
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}: any) {
   const [activeTab, setActiveTab] = useState('ALL');
   const [imageIsPressed, setImageIsPressed] = useState(false);
 
@@ -15,6 +15,10 @@ export default function HomeScreen() {
   function handleImagePress() {
     setImageIsPressed(prev => !prev);
     console.log(imageIsPressed ? 'Unpressed' : 'Pressed');
+  }
+
+  function handleSearch() {
+    navigation.navigate('SearchScreen');
   }
 
   return (
@@ -57,7 +61,7 @@ export default function HomeScreen() {
         <Logo />
       </View>
       <View style={styles.searchContainer}>
-        <SearchInput />
+        <SearchInput handleSearch={handleSearch} />
       </View>
     </View>
   );

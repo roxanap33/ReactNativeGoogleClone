@@ -1,6 +1,9 @@
 import {Image, StyleSheet, TextInput, View} from 'react-native';
 
-export default function SearchInput() {
+interface SearchInputProp {
+  handleSearch: () => void;
+}
+export default function SearchInput({handleSearch}: SearchInputProp) {
   return (
     <View style={styles.rootContainer}>
       <View style={styles.inputContainer}>
@@ -8,7 +11,11 @@ export default function SearchInput() {
           source={require('../assets/icons/search.png')}
           style={styles.searchIcon}
         />
-        <TextInput style={styles.input} placeholder="Search here" />
+        <TextInput
+          style={styles.input}
+          placeholder="Search here"
+          onSubmitEditing={handleSearch}
+        />
         <Image
           source={require('../assets/icons/mic.png')}
           style={styles.micIcon}
