@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AppNavigator from './google-clone/navigation/AppNavigator';
+import AppNavigator from './navigation/AppNavigator';
 
 function App(): React.JSX.Element {
   return <AppNavigator />;
