@@ -24,6 +24,14 @@ export default function HomeScreen() {
             onPress={() => handleTabPress('IMAGES')}
           />
         </View>
+        <View style={styles.headerRight}>
+          <Text>Apps</Text>
+          <CustomButton
+            title="Sign In"
+            isActive={false}
+            onPress={() => console.log('Pressed')}
+          />
+        </View>
       </View>
       <Text>HomeScreen</Text>
     </View>
@@ -42,8 +50,10 @@ const styles = StyleSheet.create({
   },
   headerRight: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   headerLeft: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
 });
