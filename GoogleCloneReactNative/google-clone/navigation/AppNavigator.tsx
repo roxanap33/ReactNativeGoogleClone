@@ -10,8 +10,16 @@ export default function AppNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Recipes">
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Navigator
+        initialRouteName="HomeScreen"
+        screenOptions={{
+          contentStyle: {backgroundColor: 'white'},
+        }}>
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{title: 'Google', headerShown: false}}
+        />
         <Stack.Screen name="SearchScreen" component={SearchScreen} />
       </Stack.Navigator>
     </NavigationContainer>
