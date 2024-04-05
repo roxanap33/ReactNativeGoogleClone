@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
 import CustomButton from '../components/ui/CustomButton';
+import SearchInput from '../components/SearchInput';
+import Logo from '../components/Logo';
 
 export default function HomeScreen() {
   const [activeTab, setActiveTab] = useState('ALL');
@@ -51,7 +53,12 @@ export default function HomeScreen() {
           />
         </View>
       </View>
-      <Text>HomeScreen</Text>
+      <View style={styles.logoContainer}>
+        <Logo />
+      </View>
+      <View style={styles.searchContainer}>
+        <SearchInput />
+      </View>
     </View>
   );
 }
@@ -85,5 +92,13 @@ const styles = StyleSheet.create({
   },
   pressed: {
     backgroundColor: '#cccccc',
+  },
+  logoContainer: {
+    marginTop: 150,
+    alignItems: 'center',
+  },
+  searchContainer: {
+    marginTop: 80,
+    alignItems: 'center',
   },
 });
