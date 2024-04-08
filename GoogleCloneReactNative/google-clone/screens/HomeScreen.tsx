@@ -66,7 +66,7 @@ export default function HomeScreen({navigation}: any) {
         <Logo />
       </View>
       <View style={styles.searchContainer}>
-        <SearchInput handleSearch={handleSearch} />
+        <SearchInput initialValue="" handleSearch={handleSearch} />
       </View>
       <View style={styles.footerContainer}>
         <Footer />

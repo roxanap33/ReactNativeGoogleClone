@@ -2,17 +2,23 @@ import {useState} from 'react';
 import {Image, StyleSheet, TextInput, View} from 'react-native';
 
 interface SearchInputProp {
-  handleSearch: (searchInput: string) => void;
+  initialValue: string;
+  handleSearch?: (searchInput: string) => void;
 }
-export default function SearchInput({handleSearch}: SearchInputProp) {
-  const [enteredSearchInput, setEnteredSearchInput] = useState('');
+export default function SearchInput({
+  initialValue,
+  handleSearch,
+}: SearchInputProp) {
+  const [enteredSearchInput, setEnteredSearchInput] = useState(initialValue);
 
   function handleSearchInput(text: string) {
     setEnteredSearchInput(text);
   }
 
   function handleSubmit() {
-    handleSearch(enteredSearchInput);
+    if (handleSearch) {
+      handleSearch(enteredSearchInput);
+    }
   }
 
   return (

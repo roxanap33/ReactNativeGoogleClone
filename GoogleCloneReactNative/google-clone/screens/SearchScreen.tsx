@@ -26,6 +26,7 @@ export default function SearchScreen({route}: any) {
 
   return (
     <View>
+      <SearchInput initialValue={searchInput} />
       {/* {results.map((result, index) => (
         <Text key={index}>{result.resultsMap[1]}</Text>
       ))} */}
