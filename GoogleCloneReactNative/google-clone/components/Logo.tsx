@@ -1,13 +1,27 @@
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {
+  Image,
+  ImageStyle,
+  Pressable,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native';
 
-export default function Logo() {
+interface LogoProp {
+  style: ImageStyle;
+  handlePress?: () => void;
+}
+
+export default function Logo({style, handlePress}: LogoProp) {
   return (
     <View style={styles.rootContainer}>
-      <Image
-        style={styles.logoImage}
-        source={require('../assets/google-logo-color.png')}
-      />
+      <Pressable onPress={handlePress}>
+        <Image
+          style={style}
+          source={require('../assets/google-logo-color.png')}
+        />
+      </Pressable>
     </View>
   );
 }
@@ -15,11 +29,7 @@ export default function Logo() {
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoImage: {
-    width: 200,
-    height: 100,
+    //alignItems: 'center',
+    //justifyContent: 'center',
   },
 });

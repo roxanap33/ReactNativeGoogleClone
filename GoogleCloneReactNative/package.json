@@ -10,8 +10,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@ant-design/icons-react-native": "^2.3.2",
-    "@ant-design/react-native": "^5.1.1",
     "@react-native-firebase/app": "^19.1.2",
     "@react-native-firebase/firestore": "^19.1.2",
     "@react-navigation/native": "^6.1.17",
