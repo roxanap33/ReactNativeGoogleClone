@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
 import CustomButton from '../components/ui/CustomButton';
 import SearchInput from '../components/SearchInput';
-import Logo from '../components/Logo';
+import Logo from '../components/ui/Logo';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import {useFocusEffect} from '@react-navigation/native';
@@ -23,7 +23,7 @@ export default function HomeScreen({navigation}: any) {
   }
 
   function handleSearchSubmit() {
-    navigation.navigate('SearchScreen', {searchInput});
+    if (searchInput !== '') navigation.navigate('SearchScreen', {searchInput});
   }
 
   function handleSearchInputChange(text: string) {
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   logoContainer: {
     marginTop: 100,
     alignItems: 'center',
-    marginBottom: 50,
+    marginBottom: 20,
   },
   logoImage: {
     width: 200,

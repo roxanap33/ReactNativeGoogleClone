@@ -19,7 +19,7 @@ export default function Logo({style, handlePress}: LogoProp) {
       <Pressable onPress={handlePress}>
         <Image
           style={style}
-          source={require('../assets/google-logo-color.png')}
+          source={require('../../assets/google-logo-color.png')}
         />
       </Pressable>
     </View>

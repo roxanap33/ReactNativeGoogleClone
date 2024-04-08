@@ -4,7 +4,8 @@ import firestore from '@react-native-firebase/firestore';
 import {StyleSheet, Text, View} from 'react-native';
 import SearchInput from '../components/SearchInput';
 import Header from '../components/Header';
-import Logo from '../components/Logo';
+import Logo from '../components/ui/Logo';
+import ResultList from '../components/search/ResultList';
 
 export default function SearchScreen({route, navigation}: any) {
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -56,30 +57,15 @@ export default function SearchScreen({route, navigation}: any) {
           <Header isVisible={false} />
         </View>
       </View>
-      <SearchInput
-        searchInput={searchInput}
-        handleSearchInputChange={handleSearch}
-      />
-      {results &&
-      results.some(
-        r => r.searchTerm && r.searchTerm.includes(searchInput.toLowerCase()),
-      ) ? (
-        results
-          .filter(
-            r =>
-              r.searchTerm && r.searchTerm.includes(searchInput.toLowerCase()),
-          )
-          .map(result =>
-            Object.entries(result.resultsMap || {}).map(([key, value]) => (
-              <View key={key}>
-                <Text>{key}</Text>
-                <Text>{value}</Text>
-              </View>
-            )),
-          )
-      ) : (
-        <Text>No results</Text>
-      )}
+      <View style={styles.searchContainer}>
+        <SearchInput
+          searchInput={searchInput}
+          handleSearchInputChange={handleSearch}
+        />
+      </View>
+      <View style={styles.resultsContainer}>
+        {results && <ResultList results={results} searchInput={searchInput} />}
+      </View>
     </View>
   );
 }
@@ -99,5 +85,12 @@ const styles = StyleSheet.create({
   logoImage: {
     width: 100,
     height: 50,
+  },
+  searchContainer: {
+    marginBottom: '15%',
+  },
+  resultsContainer: {
+    flex: 1,
+    marginTop: 0,
   },
 });
