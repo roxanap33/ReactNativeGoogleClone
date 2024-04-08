@@ -8,26 +8,41 @@ import Logo from '../components/Logo';
 
 export default function SearchScreen({route, navigation}: any) {
   const [results, setResults] = useState<SearchResult[]>([]);
-  const {searchInput} = route.params;
+  const [searchInput, setSearchInput] = useState<string>(
+    route.params?.searchInput || '',
+  );
 
   useEffect(() => {
-    const subscriber = firestore()
-      .collection('results')
-      .onSnapshot(querySnapshot => {
-        const resultsArray = querySnapshot.docs.map(doc => ({
-          resultsMap: doc.data().resultsMap,
-          searchTerm: doc.data().searchTerm,
-        }));
-        setResults(resultsArray);
-      });
+    if (searchInput) {
+      const subscriber = firestore()
+        .collection('results')
+        .onSnapshot(querySnapshot => {
+          const resultsArray = querySnapshot.docs.map(doc => ({
+            resultsMap: doc.data().resultsMap,
+            searchTerm: doc.data().searchTerm,
+          }));
+          setResults(resultsArray);
+          resultsArray.forEach(result => console.log(result.searchTerm));
+        });
 
-    return () => subscriber();
-  }, []);
+      return () => subscriber();
+    }
+  }, [searchInput]);
 
-  console.log(results);
+  console.log('INPUT ', searchInput.toLowerCase());
+
+  results.forEach(result => console.log(result.searchTerm));
+  results.some(
+    r =>
+      r.searchTerm &&
+      console.log(r.searchTerm.includes(searchInput.toLowerCase())),
+  );
 
   function handleLogoPress() {
     navigation.goBack();
+  }
+  function handleSearch(newSearchInput: string) {
+    setSearchInput(newSearchInput);
   }
 
   return (
@@ -40,10 +55,27 @@ export default function SearchScreen({route, navigation}: any) {
           <Header isVisible={false} />
         </View>
       </View>
-      <SearchInput initialValue={searchInput} />
-      {/* {results.map((result, index) => (
-        <Text key={index}>{result.resultsMap[1]}</Text>
-      ))} */}
+      <SearchInput initialValue={searchInput} handleSearch={handleSearch} />
+      {results &&
+      results.some(
+        r => r.searchTerm && r.searchTerm.includes(searchInput.toLowerCase()),
+      ) ? (
+        results
+          .filter(
+            r =>
+              r.searchTerm && r.searchTerm.includes(searchInput.toLowerCase()),
+          )
+          .map(result =>
+            Object.entries(result.resultsMap || {}).map(([key, value]) => (
+              <View key={key}>
+                <Text>{key}</Text>
+                <Text>{value}</Text>
+              </View>
+            )),
+          )
+      ) : (
+        <Text>No results</Text>
+      )}
     </View>
   );
 }

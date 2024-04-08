@@ -3,7 +3,7 @@ import {Image, StyleSheet, TextInput, View} from 'react-native';
 
 interface SearchInputProp {
   initialValue: string;
-  handleSearch?: (searchInput: string) => void;
+  handleSearch: (searchInput: string) => void;
 }
 export default function SearchInput({
   initialValue,
