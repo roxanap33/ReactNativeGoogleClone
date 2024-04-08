@@ -20,7 +20,11 @@ export default function AppNavigator() {
           component={HomeScreen}
           options={{title: 'Google', headerShown: false}}
         />
-        <Stack.Screen name="SearchScreen" component={SearchScreen} />
+        <Stack.Screen
+          name="SearchScreen"
+          component={SearchScreen}
+          options={{title: 'Google', headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

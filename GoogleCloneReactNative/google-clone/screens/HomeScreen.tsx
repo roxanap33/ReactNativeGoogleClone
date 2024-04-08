@@ -1,29 +1,33 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
 import CustomButton from '../components/ui/CustomButton';
 import SearchInput from '../components/SearchInput';
-import Logo from '../components/Logo';
+import Logo from '../components/ui/Logo';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
+import {useFocusEffect} from '@react-navigation/native';
 
 export default function HomeScreen({navigation}: any) {
   const [activeTab, setActiveTab] = useState('ALL');
-  const [imageIsPressed, setImageIsPressed] = useState(false);
+
   const [searchInput, setSearchInput] = useState('');
+  useFocusEffect(
+    useCallback(() => {
+      setSearchInput('');
+      console.log('INPUT ', searchInput);
+    }, []),
+  );
 
   function handleTabPress(tab: string) {
     setActiveTab(tab);
   }
 
-  function handleImagePress() {
-    setImageIsPressed(prev => !prev);
-    console.log(imageIsPressed ? 'Unpressed' : 'Pressed');
+  function handleSearchSubmit() {
+    if (searchInput !== '') navigation.navigate('SearchScreen', {searchInput});
   }
 
-  function handleSearch(searchInput: string) {
-    setSearchInput(searchInput);
-    console.log('HAI ', searchInput);
-
-    navigation.navigate('SearchScreen', {searchInput});
+  function handleSearchInputChange(text: string) {
+    setSearchInput(text);
   }
 
   return (
@@ -42,31 +46,18 @@ export default function HomeScreen({navigation}: any) {
           />
         </View>
         <View style={styles.headerRight}>
-          <Pressable onPress={handleImagePress}>
-            {({pressed}) => (
-              <View
-                style={[
-                  styles.imageContainer,
-                  pressed && styles.pressed,
-                  imageIsPressed && styles.pressed,
-                ]}>
-                <Image source={require('../assets/icons/apps.png')} />
-              </View>
-            )}
-          </Pressable>
-
-          <CustomButton
-            title="Sign In"
-            isActive={false}
-            onPress={() => Linking.openURL('https://www.youtube.com/')}
-          />
+          <Header isVisible={true} />
         </View>
       </View>
       <View style={styles.logoContainer}>
-        <Logo />
+        <Logo style={styles.logoImage} />
       </View>
       <View style={styles.searchContainer}>
-        <SearchInput handleSearch={handleSearch} />
+        <SearchInput
+          searchInput={searchInput}
+          handleSearchInputChange={handleSearchInputChange}
+          handleSubmit={handleSearchSubmit}
+        />
       </View>
       <View style={styles.footerContainer}>
         <Footer />
@@ -90,6 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -107,8 +99,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#cccccc',
   },
   logoContainer: {
-    marginTop: 150,
+    marginTop: 100,
     alignItems: 'center',
+    marginBottom: 20,
+  },
+  logoImage: {
+    width: 200,
+    height: 100,
   },
   searchContainer: {
     marginTop: 80,
