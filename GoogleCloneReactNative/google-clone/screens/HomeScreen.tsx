@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 export default function HomeScreen({navigation}: any) {
   const [activeTab, setActiveTab] = useState('ALL');
   const [imageIsPressed, setImageIsPressed] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
 
   function handleTabPress(tab: string) {
     setActiveTab(tab);
@@ -18,8 +19,11 @@ export default function HomeScreen({navigation}: any) {
     console.log(imageIsPressed ? 'Unpressed' : 'Pressed');
   }
 
-  function handleSearch() {
-    navigation.navigate('SearchScreen');
+  function handleSearch(searchInput: string) {
+    setSearchInput(searchInput);
+    console.log('HAI ', searchInput);
+
+    navigation.navigate('SearchScreen', {searchInput});
   }
 
   return (

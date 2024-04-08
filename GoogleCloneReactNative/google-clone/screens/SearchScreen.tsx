@@ -1,6 +1,34 @@
-import React from 'react';
-import {Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
 
-export default function SearchScreen() {
-  return <Text>SearchScreen</Text>;
+import firestore from '@react-native-firebase/firestore';
+import {Text, View} from 'react-native';
+import SearchInput from '../components/SearchInput';
+
+export default function SearchScreen({route}: any) {
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const {searchInput} = route.params;
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('results')
+      .onSnapshot(querySnapshot => {
+        const resultsArray = querySnapshot.docs.map(doc => ({
+          resultsMap: doc.data().resultsMap,
+          searchTerm: doc.data().searchTerm,
+        }));
+        setResults(resultsArray);
+      });
+
+    return () => subscriber();
+  }, []);
+
+  console.log(results);
+
+  return (
+    <View>
+      {/* {results.map((result, index) => (
+        <Text key={index}>{result.resultsMap[1]}</Text>
+      ))} */}
+    </View>
+  );
 }
