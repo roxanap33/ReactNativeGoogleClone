@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react';
 
 import firestore from '@react-native-firebase/firestore';
 import {Text, View} from 'react-native';
+import SearchInput from '../components/SearchInput';
 
-export default function SearchScreen() {
+export default function SearchScreen({route}: any) {
   const [results, setResults] = useState<SearchResult[]>([]);
+  const {searchInput} = route.params;
 
   useEffect(() => {
     const subscriber = firestore()
@@ -17,7 +19,6 @@ export default function SearchScreen() {
         setResults(resultsArray);
       });
 
-    // Cleanup function
     return () => subscriber();
   }, []);
 
