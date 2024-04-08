@@ -9,13 +9,13 @@ import {useFocusEffect} from '@react-navigation/native';
 
 export default function HomeScreen({navigation}: any) {
   const [activeTab, setActiveTab] = useState('ALL');
-
   const [searchInput, setSearchInput] = useState('');
+
   useFocusEffect(
     useCallback(() => {
       setSearchInput('');
-      console.log('INPUT ', searchInput);
-    }, []),
+      setActiveTab('ALL');
+    }, [activeTab]),
   );
 
   function handleTabPress(tab: string) {
@@ -43,7 +43,10 @@ export default function HomeScreen({navigation}: any) {
             <CustomButton
               title="IMAGES"
               isActive={activeTab === 'IMAGES'}
-              onPress={() => handleTabPress('IMAGES')}
+              onPress={() => {
+                handleTabPress('IMAGES');
+                Linking.openURL('https://www.google.com/imghp?hl=ro&ogbl');
+              }}
             />
           </View>
           <View style={styles.headerRight}>
