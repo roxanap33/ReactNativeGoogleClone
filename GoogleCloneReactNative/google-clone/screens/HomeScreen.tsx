@@ -1,25 +1,33 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
 import CustomButton from '../components/ui/CustomButton';
 import SearchInput from '../components/SearchInput';
 import Logo from '../components/Logo';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import {useFocusEffect} from '@react-navigation/native';
 
 export default function HomeScreen({navigation}: any) {
   const [activeTab, setActiveTab] = useState('ALL');
 
   const [searchInput, setSearchInput] = useState('');
+  useFocusEffect(
+    useCallback(() => {
+      setSearchInput('');
+      console.log('INPUT ', searchInput);
+    }, []),
+  );
 
   function handleTabPress(tab: string) {
     setActiveTab(tab);
   }
 
-  function handleSearch(searchInput: string) {
-    setSearchInput(searchInput);
-    console.log('HAI ', searchInput);
-
+  function handleSearchSubmit() {
     navigation.navigate('SearchScreen', {searchInput});
+  }
+
+  function handleSearchInputChange(text: string) {
+    setSearchInput(text);
   }
 
   return (
@@ -45,7 +53,11 @@ export default function HomeScreen({navigation}: any) {
         <Logo style={styles.logoImage} />
       </View>
       <View style={styles.searchContainer}>
-        <SearchInput initialValue="" handleSearch={handleSearch} />
+        <SearchInput
+          searchInput={searchInput}
+          handleSearchInputChange={handleSearchInputChange}
+          handleSubmit={handleSearchSubmit}
+        />
       </View>
       <View style={styles.footerContainer}>
         <Footer />

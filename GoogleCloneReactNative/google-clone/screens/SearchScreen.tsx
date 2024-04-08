@@ -29,18 +29,19 @@ export default function SearchScreen({route, navigation}: any) {
     }
   }, [searchInput]);
 
-  console.log('INPUT ', searchInput.toLowerCase());
+  //console.log('INPUT ', searchInput.toLowerCase());
 
-  results.forEach(result => console.log(result.searchTerm));
-  results.some(
-    r =>
-      r.searchTerm &&
-      console.log(r.searchTerm.includes(searchInput.toLowerCase())),
-  );
+  // results.forEach(result => console.log(result.searchTerm));
+  // results.some(
+  //   r =>
+  //     r.searchTerm &&
+  //     console.log(r.searchTerm.includes(searchInput.toLowerCase())),
+  // );
 
   function handleLogoPress() {
     navigation.goBack();
   }
+
   function handleSearch(newSearchInput: string) {
     setSearchInput(newSearchInput);
   }
@@ -55,7 +56,10 @@ export default function SearchScreen({route, navigation}: any) {
           <Header isVisible={false} />
         </View>
       </View>
-      <SearchInput initialValue={searchInput} handleSearch={handleSearch} />
+      <SearchInput
+        searchInput={searchInput}
+        handleSearchInputChange={handleSearch}
+      />
       {results &&
       results.some(
         r => r.searchTerm && r.searchTerm.includes(searchInput.toLowerCase()),

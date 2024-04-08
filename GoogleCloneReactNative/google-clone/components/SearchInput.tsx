@@ -2,25 +2,15 @@ import {useState} from 'react';
 import {Image, StyleSheet, TextInput, View} from 'react-native';
 
 interface SearchInputProp {
-  initialValue: string;
-  handleSearch: (searchInput: string) => void;
+  searchInput: string;
+  handleSearchInputChange: (searchInput: string) => void;
+  handleSubmit?: () => void;
 }
 export default function SearchInput({
-  initialValue,
-  handleSearch,
+  searchInput,
+  handleSearchInputChange,
+  handleSubmit,
 }: SearchInputProp) {
-  const [enteredSearchInput, setEnteredSearchInput] = useState(initialValue);
-
-  function handleSearchInput(text: string) {
-    setEnteredSearchInput(text);
-  }
-
-  function handleSubmit() {
-    if (handleSearch) {
-      handleSearch(enteredSearchInput);
-    }
-  }
-
   return (
     <View style={styles.rootContainer}>
       <View style={styles.inputContainer}>
@@ -32,8 +22,8 @@ export default function SearchInput({
           style={styles.input}
           placeholder="Search here"
           onSubmitEditing={handleSubmit}
-          onChangeText={handleSearchInput}
-          value={enteredSearchInput}
+          onChangeText={handleSearchInputChange}
+          value={searchInput}
         />
         <Image
           source={require('../assets/icons/mic.png')}
