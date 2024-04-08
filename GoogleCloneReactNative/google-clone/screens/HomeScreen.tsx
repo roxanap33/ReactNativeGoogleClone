@@ -32,32 +32,34 @@ export default function HomeScreen({navigation}: any) {
 
   return (
     <View style={styles.rootContainer}>
-      <View style={styles.headerContainer}>
-        <View style={styles.headerLeft}>
-          <CustomButton
-            title="ALL"
-            isActive={activeTab === 'ALL'}
-            onPress={() => handleTabPress('ALL')}
-          />
-          <CustomButton
-            title="IMAGES"
-            isActive={activeTab === 'IMAGES'}
-            onPress={() => handleTabPress('IMAGES')}
+      <View style={styles.screenContainer}>
+        <View style={styles.headerContainer}>
+          <View style={styles.headerLeft}>
+            <CustomButton
+              title="ALL"
+              isActive={activeTab === 'ALL'}
+              onPress={() => handleTabPress('ALL')}
+            />
+            <CustomButton
+              title="IMAGES"
+              isActive={activeTab === 'IMAGES'}
+              onPress={() => handleTabPress('IMAGES')}
+            />
+          </View>
+          <View style={styles.headerRight}>
+            <Header isVisible={true} />
+          </View>
+        </View>
+        <View style={styles.logoContainer}>
+          <Logo style={styles.logoImage} />
+        </View>
+        <View style={styles.searchContainer}>
+          <SearchInput
+            searchInput={searchInput}
+            handleSearchInputChange={handleSearchInputChange}
+            handleSubmit={handleSearchSubmit}
           />
         </View>
-        <View style={styles.headerRight}>
-          <Header isVisible={true} />
-        </View>
-      </View>
-      <View style={styles.logoContainer}>
-        <Logo style={styles.logoImage} />
-      </View>
-      <View style={styles.searchContainer}>
-        <SearchInput
-          searchInput={searchInput}
-          handleSearchInputChange={handleSearchInputChange}
-          handleSubmit={handleSearchSubmit}
-        />
       </View>
       <View style={styles.footerContainer}>
         <Footer />
@@ -69,6 +71,9 @@ export default function HomeScreen({navigation}: any) {
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
+  },
+  screenContainer: {
+    //flex: 1,
     marginVertical: 20,
     marginHorizontal: 10,
   },
