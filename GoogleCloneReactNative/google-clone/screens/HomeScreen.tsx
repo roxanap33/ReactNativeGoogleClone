@@ -3,6 +3,7 @@ import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
 import CustomButton from '../components/ui/CustomButton';
 import SearchInput from '../components/SearchInput';
 import Logo from '../components/Logo';
+import Footer from '../components/Footer';
 
 export default function HomeScreen({navigation}: any) {
   const [activeTab, setActiveTab] = useState('ALL');
@@ -63,12 +64,16 @@ export default function HomeScreen({navigation}: any) {
       <View style={styles.searchContainer}>
         <SearchInput handleSearch={handleSearch} />
       </View>
+      <View style={styles.footerContainer}>
+        <Footer />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   rootContainer: {
+    flex: 1,
     marginVertical: 20,
     marginHorizontal: 10,
   },
@@ -104,5 +109,13 @@ const styles = StyleSheet.create({
   searchContainer: {
     marginTop: 80,
     alignItems: 'center',
+  },
+  footerContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    marginBottom: 20,
   },
 });
