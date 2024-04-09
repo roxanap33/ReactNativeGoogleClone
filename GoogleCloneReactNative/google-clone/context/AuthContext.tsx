@@ -24,7 +24,12 @@ export const AuthProvider = ({children}: any) => {
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(user => {
-      if (!user) {
+      if (user) {
+        setUserName(user.displayName || '');
+        setUserEmail(user.email || '');
+        setUserPhoto(user.photoURL || '');
+        setUserSignedIn(true);
+      } else {
         setUserName('');
         setUserEmail('');
         setUserPhoto('');
@@ -66,17 +71,14 @@ export const AuthProvider = ({children}: any) => {
     }
   };
 
-  return (
-    <AuthContext.Provider
-      value={{
-        userName,
-        userEmail,
-        userPhoto,
-        userSignedIn,
-        signInMethod: signIn,
-        signOutMethod: signOut,
-      }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = {
+    userName: userName,
+    userEmail: userEmail,
+    userPhoto: userPhoto,
+    userSignedIn: userSignedIn,
+    signInMethod: signIn,
+    signOutMethod: signOut,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

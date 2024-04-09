@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Image, Modal, Pressable, StyleSheet, View} from 'react-native';
+import {Image, Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import CustomButton from '../ui/CustomButton';
 import {AuthContext} from '../../context/AuthContext';
 
@@ -14,7 +14,7 @@ export default function UserModal({
   showUserModal,
   modalClose,
 }: UserModalProps) {
-  const {userPhoto} = useContext(AuthContext);
+  const {userPhoto, userName, userEmail} = useContext(AuthContext);
 
   return (
     <Modal
@@ -22,21 +22,21 @@ export default function UserModal({
       transparent={true}
       visible={showUserModal}
       onRequestClose={modalClose}>
-      <Pressable style={styles.modalContent} onPress={modalClose}>
-        <View style={styles.userModalContainer}>
-          <View style={styles.modalView}>
-            <Image
-              style={styles.userImage}
-              source={
-                userPhoto ? {uri: userPhoto} : require('../../assets/user.png')
-              }
-            />
-            <CustomButton
-              title="Sign Out"
-              isActive={false}
-              onPress={modalSignOut}
-            />
-          </View>
+      <Pressable style={styles.userModalContainer} onPress={modalClose}>
+        <View style={styles.modalContent}>
+          <Image
+            style={styles.userImage}
+            source={
+              userPhoto ? {uri: userPhoto} : require('../../assets/user.png')
+            }
+          />
+          <Text style={styles.userText}>{userName}</Text>
+          <Text style={styles.userText}>{userEmail}</Text>
+          <CustomButton
+            title="Sign Out"
+            isActive={false}
+            onPress={modalSignOut}
+          />
         </View>
       </Pressable>
     </Modal>
@@ -50,10 +50,10 @@ const styles = StyleSheet.create({
     marginTop: '32%',
     margin: 10,
   },
-  modalView: {
+  modalContent: {
     backgroundColor: '#f2f2f2',
     borderRadius: 20,
-    padding: 25,
+    padding: 15,
     alignItems: 'center',
     shadowColor: 'black',
     shadowOffset: {
@@ -63,13 +63,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 0.3,
   },
-  modalContent: {
-    flex: 1,
-  },
   userImage: {
-    width: 40,
-    height: 40,
+    width: 50,
+    height: 50,
     borderRadius: 40,
     marginBottom: 5,
+  },
+  userText: {
+    color: 'grey',
   },
 });
