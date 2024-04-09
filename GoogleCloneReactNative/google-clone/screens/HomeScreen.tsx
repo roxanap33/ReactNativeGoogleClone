@@ -1,11 +1,11 @@
 import React, {useCallback, useState} from 'react';
-import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+import {Linking, StyleSheet, View} from 'react-native';
 import CustomButton from '../components/ui/CustomButton';
 import SearchInput from '../components/SearchInput';
 import Logo from '../components/ui/Logo';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import {useFocusEffect} from '@react-navigation/native';
 
 const allTab = 'all';
 const imagesTab = 'images';
@@ -13,14 +13,12 @@ const imagesTab = 'images';
 export default function HomeScreen({navigation}: any) {
   const [activeTab, setActiveTab] = useState(allTab.toUpperCase());
   const [searchInput, setSearchInput] = useState('');
-  const [modalInitialState, setModalInitialState] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
       setSearchInput('');
       setActiveTab(allTab.toUpperCase());
-      setModalInitialState(false);
-    }, [activeTab, modalInitialState]),
+    }, [activeTab]),
   );
 
   function handleTabPress(tab: string) {
@@ -55,7 +53,7 @@ export default function HomeScreen({navigation}: any) {
             />
           </View>
           <View style={styles.headerRight}>
-            <Header isVisible={true} initialState={modalInitialState} />
+            <Header isVisible={true} />
           </View>
         </View>
         <View style={styles.logoContainer}>

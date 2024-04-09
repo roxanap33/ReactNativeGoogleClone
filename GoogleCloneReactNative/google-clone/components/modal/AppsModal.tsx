@@ -1,26 +1,33 @@
-import React from 'react';
-import {Modal, Pressable, StyleSheet, View} from 'react-native';
+import React, {useContext} from 'react';
+import {Linking, Modal, Pressable, StyleSheet, View} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import ModalContent from './ModalContent';
 import {modalItems} from '../../util/constatnts';
+import {ModalContext} from '../../context/ModalContext';
 
 interface AppsModalProps {
-  modalVisible: boolean;
-  setModalVisible: (modalVisible: boolean) => void;
   closeModal: () => void;
+  setImageIsPressed: (value: boolean) => void;
 }
 export default function AppsModal({
-  modalVisible,
-  setModalVisible,
   closeModal,
+  setImageIsPressed,
 }: AppsModalProps) {
+  const {modalIsVisible, hideModal} = useContext(ModalContext);
+
+  function itemPress(value: string) {
+    hideModal();
+    setImageIsPressed(false);
+    Linking.openURL(value);
+  }
+
   return (
     <Modal
       animationType="none"
       transparent={true}
-      visible={modalVisible}
+      visible={modalIsVisible}
       onRequestClose={() => {
-        setModalVisible(!modalVisible);
+        closeModal;
       }}>
       <GestureHandlerRootView style={{flex: 1}}>
         <Pressable style={styles.modalContent} onPress={closeModal}>
@@ -29,7 +36,7 @@ export default function AppsModal({
               style={styles.modalContent}
               onPress={event => event.stopPropagation()}>
               <View style={styles.modal}>
-                <ModalContent items={modalItems} />
+                <ModalContent items={modalItems} onPress={itemPress} />
               </View>
             </Pressable>
           </View>
@@ -48,7 +55,7 @@ const styles = StyleSheet.create({
   modal: {
     flexDirection: 'row',
     margin: 10,
-    height: '40%',
+    height: '30%',
     width: '60%',
     backgroundColor: 'white',
     borderRadius: 20,
