@@ -7,15 +7,20 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import {useFocusEffect} from '@react-navigation/native';
 
+const allTab = 'all';
+const imagesTab = 'images';
+
 export default function HomeScreen({navigation}: any) {
-  const [activeTab, setActiveTab] = useState('ALL');
+  const [activeTab, setActiveTab] = useState(allTab.toUpperCase());
   const [searchInput, setSearchInput] = useState('');
+  const [modalInitialState, setModalInitialState] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
       setSearchInput('');
-      setActiveTab('ALL');
-    }, [activeTab]),
+      setActiveTab(allTab.toUpperCase());
+      setModalInitialState(false);
+    }, [activeTab, modalInitialState]),
   );
 
   function handleTabPress(tab: string) {
@@ -36,21 +41,21 @@ export default function HomeScreen({navigation}: any) {
         <View style={styles.headerContainer}>
           <View style={styles.headerLeft}>
             <CustomButton
-              title="ALL"
-              isActive={activeTab === 'ALL'}
-              onPress={() => handleTabPress('ALL')}
+              title={allTab.toUpperCase()}
+              isActive={activeTab === allTab.toUpperCase()}
+              onPress={() => handleTabPress(allTab.toUpperCase())}
             />
             <CustomButton
-              title="IMAGES"
-              isActive={activeTab === 'IMAGES'}
+              title={imagesTab.toUpperCase()}
+              isActive={activeTab === imagesTab.toUpperCase()}
               onPress={() => {
-                handleTabPress('IMAGES');
+                handleTabPress(imagesTab.toUpperCase());
                 Linking.openURL('https://www.google.com/imghp?hl=ro&ogbl');
               }}
             />
           </View>
           <View style={styles.headerRight}>
-            <Header isVisible={true} />
+            <Header isVisible={true} initialState={modalInitialState} />
           </View>
         </View>
         <View style={styles.logoContainer}>

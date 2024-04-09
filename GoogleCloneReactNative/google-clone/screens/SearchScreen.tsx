@@ -6,6 +6,7 @@ import SearchInput from '../components/SearchInput';
 import Header from '../components/Header';
 import Logo from '../components/ui/Logo';
 import ResultList from '../components/search/ResultList';
+import {SearchResult} from '../util/types';
 
 export default function SearchScreen({route, navigation}: any) {
   const [results, setResults] = useState<SearchResult[]>([]);

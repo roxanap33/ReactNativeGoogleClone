@@ -1,17 +1,41 @@
-import React, {useState} from 'react';
-import {Image, Linking, Pressable, StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {
+  Image,
+  Linking,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import CustomButton from './ui/CustomButton';
+import ModalContent from './modal/ModalContent';
+import {modalItems} from '../util/constatnts';
+import AppsModal from './modal/AppsModal';
 
 interface HeaderProp {
   isVisible: boolean;
+  initialState: boolean;
 }
 
-export default function Header({isVisible}: HeaderProp) {
+export default function Header({isVisible, initialState}: HeaderProp) {
+  const [modalVisible, setModalVisible] = useState(false);
   const [imageIsPressed, setImageIsPressed] = useState(false);
+
+  useEffect(() => {
+    setModalVisible(initialState);
+  }, [initialState]);
 
   function handleImagePress() {
     setImageIsPressed(prev => !prev);
+    setModalVisible(prev => !prev);
     console.log(imageIsPressed ? 'Unpressed' : 'Pressed');
+  }
+
+  function closeModal() {
+    setImageIsPressed(false);
+    setModalVisible(false);
   }
   return (
     <>
@@ -29,6 +53,12 @@ export default function Header({isVisible}: HeaderProp) {
           )}
         </Pressable>
       )}
+
+      <AppsModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        closeModal={closeModal}
+      />
 
       <CustomButton
         title="Sign In"
