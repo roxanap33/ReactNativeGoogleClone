@@ -7,6 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import {SearchResult} from '../../util/types';
 
 interface ResultListProps {
   results: SearchResult[];

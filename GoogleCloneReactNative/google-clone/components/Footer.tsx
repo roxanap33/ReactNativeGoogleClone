@@ -26,7 +26,7 @@ export default function Footer() {
           style={styles.lowerFooterText}
           onPress={() =>
             Linking.openURL(
-              '"https://ads.google.com/intl/en_ro/home/?subid=ww-ww-et-g-awa-a-g_hpafoot1_1!o2&utm_source=google.com&utm_medium=referral&utm_campaign=google_hpafooter&fg=1',
+              'https://ads.google.com/intl/en_ro/home/?subid=ww-ww-et-g-awa-a-g_hpafoot1_1!o2&utm_source=google.com&utm_medium=referral&utm_campaign=google_hpafooter&fg=1',
             )
           }>
           Advertising

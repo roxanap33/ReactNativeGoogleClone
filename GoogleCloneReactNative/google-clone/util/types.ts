@@ -1,7 +1,14 @@
 interface ResultMap {
   [key: string]: string;
 }
-interface SearchResult {
+export interface SearchResult {
   resultsMap: ResultMap;
   searchTerm: string;
+}
+
+export interface ModalItem {
+  id: string;
+  image: any;
+  text: string;
+  link: string;
 }

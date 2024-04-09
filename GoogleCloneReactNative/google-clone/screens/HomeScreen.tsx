@@ -1,21 +1,24 @@
 import React, {useCallback, useState} from 'react';
-import {Image, Linking, Pressable, StyleSheet, Text, View} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+import {Linking, StyleSheet, View} from 'react-native';
 import CustomButton from '../components/ui/CustomButton';
 import SearchInput from '../components/SearchInput';
 import Logo from '../components/ui/Logo';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import {useFocusEffect} from '@react-navigation/native';
+
+const allTab = 'all';
+const imagesTab = 'images';
 
 export default function HomeScreen({navigation}: any) {
-  const [activeTab, setActiveTab] = useState('ALL');
-
+  const [activeTab, setActiveTab] = useState(allTab.toUpperCase());
   const [searchInput, setSearchInput] = useState('');
+
   useFocusEffect(
     useCallback(() => {
       setSearchInput('');
-      console.log('INPUT ', searchInput);
-    }, []),
+      setActiveTab(allTab.toUpperCase());
+    }, [activeTab]),
   );
 
   function handleTabPress(tab: string) {
@@ -36,14 +39,17 @@ export default function HomeScreen({navigation}: any) {
         <View style={styles.headerContainer}>
           <View style={styles.headerLeft}>
             <CustomButton
-              title="ALL"
-              isActive={activeTab === 'ALL'}
-              onPress={() => handleTabPress('ALL')}
+              title={allTab.toUpperCase()}
+              isActive={activeTab === allTab.toUpperCase()}
+              onPress={() => handleTabPress(allTab.toUpperCase())}
             />
             <CustomButton
-              title="IMAGES"
-              isActive={activeTab === 'IMAGES'}
-              onPress={() => handleTabPress('IMAGES')}
+              title={imagesTab.toUpperCase()}
+              isActive={activeTab === imagesTab.toUpperCase()}
+              onPress={() => {
+                handleTabPress(imagesTab.toUpperCase());
+                Linking.openURL('https://www.google.com/imghp?hl=ro&ogbl');
+              }}
             />
           </View>
           <View style={styles.headerRight}>

@@ -6,38 +6,34 @@ import SearchInput from '../components/SearchInput';
 import Header from '../components/Header';
 import Logo from '../components/ui/Logo';
 import ResultList from '../components/search/ResultList';
+import {SearchResult} from '../util/types';
 
 export default function SearchScreen({route, navigation}: any) {
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [searchInput, setSearchInput] = useState<string>(
+  const [searchInput, setSearchInput] = useState(
+    route.params?.searchInput || '',
+  );
+  const [submittedSearch, setSubmittedSearch] = useState(
     route.params?.searchInput || '',
   );
 
   useEffect(() => {
-    if (searchInput) {
-      const subscriber = firestore()
-        .collection('results')
-        .onSnapshot(querySnapshot => {
-          const resultsArray = querySnapshot.docs.map(doc => ({
-            resultsMap: doc.data().resultsMap,
-            searchTerm: doc.data().searchTerm,
-          }));
-          setResults(resultsArray);
-          resultsArray.forEach(result => console.log(result.searchTerm));
-        });
-
-      return () => subscriber();
+    if (submittedSearch) {
+      fetchData();
     }
-  }, [searchInput]);
+  }, [submittedSearch]);
 
-  //console.log('INPUT ', searchInput.toLowerCase());
-
-  // results.forEach(result => console.log(result.searchTerm));
-  // results.some(
-  //   r =>
-  //     r.searchTerm &&
-  //     console.log(r.searchTerm.includes(searchInput.toLowerCase())),
-  // );
+  function fetchData() {
+    firestore()
+      .collection('results')
+      .onSnapshot(querySnapshot => {
+        const resultsArray = querySnapshot.docs.map(doc => ({
+          resultsMap: doc.data().resultsMap,
+          searchTerm: doc.data().searchTerm,
+        }));
+        setResults(resultsArray);
+      });
+  }
 
   function handleLogoPress() {
     navigation.goBack();
@@ -45,6 +41,10 @@ export default function SearchScreen({route, navigation}: any) {
 
   function handleSearch(newSearchInput: string) {
     setSearchInput(newSearchInput);
+  }
+
+  function handleSearchSubmit() {
+    if (searchInput) setSubmittedSearch(searchInput);
   }
 
   return (
@@ -61,10 +61,13 @@ export default function SearchScreen({route, navigation}: any) {
         <SearchInput
           searchInput={searchInput}
           handleSearchInputChange={handleSearch}
+          handleSubmit={handleSearchSubmit}
         />
       </View>
       <View style={styles.resultsContainer}>
-        {results && <ResultList results={results} searchInput={searchInput} />}
+        {results && (
+          <ResultList results={results} searchInput={submittedSearch} />
+        )}
       </View>
     </View>
   );
