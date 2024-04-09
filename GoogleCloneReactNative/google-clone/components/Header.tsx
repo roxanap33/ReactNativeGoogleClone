@@ -100,11 +100,12 @@ const styles = StyleSheet.create({
   },
   userContainer: {
     position: 'absolute',
+    alignItems: 'center',
     top: '100%',
     width: '100%',
     left: '5%',
     right: '10%',
-    backgroundColor: '#cccccc',
+    backgroundColor: '#f2f2f2',
     borderRadius: 10,
     padding: 4,
     shadowColor: 'black',
@@ -114,7 +115,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 0.3,
-    alignItems: 'center',
   },
   userImage: {
     width: 50,
