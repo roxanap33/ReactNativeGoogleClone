@@ -1,33 +1,49 @@
-import {Pressable, StyleSheet, Text} from 'react-native';
+import {useState} from 'react';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
 interface CustomButtonProps {
   title: string;
   isActive: boolean;
-  onPress: () => void;
+  onPress?: () => void;
+  signIn?: boolean;
+  userOption?: () => void;
 }
 
 export default function CustomButton({
   title,
   isActive,
   onPress,
+  signIn,
+  userOption,
 }: CustomButtonProps) {
   return (
-    <Pressable
-      style={[
-        styles.button,
-        isActive && styles.activeButton,
-        title === 'Sign In' && styles.signInButton,
-      ]}
-      onPress={onPress}>
-      <Text
-        style={[
-          styles.buttonText,
-          isActive && styles.activeButtonText,
-          title === 'Sign In' && styles.signInButtonText,
-        ]}>
-        {title}
-      </Text>
-    </Pressable>
+    <View>
+      {!signIn ? (
+        <Pressable
+          style={[
+            styles.button,
+            isActive && styles.activeButton,
+            title === 'Sign In' && styles.signInButton,
+          ]}
+          onPress={onPress}>
+          <Text
+            style={[
+              styles.buttonText,
+              isActive && styles.activeButtonText,
+              title === 'Sign In' && styles.signInButtonText,
+            ]}>
+            {title}
+          </Text>
+        </Pressable>
+      ) : (
+        <Pressable onPress={userOption}>
+          <Image
+            style={styles.userContainer}
+            source={require('../../assets/user.jpeg')}
+          />
+        </Pressable>
+      )}
+    </View>
   );
 }
 
@@ -56,5 +72,10 @@ const styles = StyleSheet.create({
   },
   signInButtonText: {
     color: 'white',
+  },
+  userContainer: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
   },
 });

@@ -1,5 +1,5 @@
 import {useContext, useState} from 'react';
-import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {Image, Modal, Pressable, StyleSheet, View} from 'react-native';
 import CustomButton from './ui/CustomButton';
 import AppsModal from './modal/AppsModal';
 import {ModalContext} from '../context/ModalContext';
@@ -11,6 +11,16 @@ interface HeaderProp {
 export default function Header({isVisible}: HeaderProp) {
   const [imageIsPressed, setImageIsPressed] = useState(false);
   const {modalIsVisible, showModal, hideModal} = useContext(ModalContext);
+  const [signIn, setSignIn] = useState(false);
+  const [showSignInModal, setShowSignInModal] = useState(false);
+
+  function handleSignInPress() {
+    setSignIn(prev => !prev);
+  }
+
+  function handleUserImagePress() {
+    setShowSignInModal(prev => !prev);
+  }
 
   function handleImagePress() {
     setImageIsPressed(prev => !prev);
@@ -50,8 +60,27 @@ export default function Header({isVisible}: HeaderProp) {
       <CustomButton
         title="Sign In"
         isActive={false}
-        onPress={() => console.log('Sign in pressed')}
+        onPress={handleSignInPress}
+        userOption={handleUserImagePress}
+        signIn={signIn}
       />
+
+      {showSignInModal && (
+        <View style={styles.userContainer}>
+          <Image
+            style={styles.userImage}
+            source={require('../assets/user.jpeg')}
+          />
+          <CustomButton
+            title="Sign Out"
+            isActive={false}
+            onPress={() => {
+              setSignIn(false);
+              setShowSignInModal(false);
+            }}
+          />
+        </View>
+      )}
     </>
   );
 }
@@ -68,5 +97,29 @@ const styles = StyleSheet.create({
   },
   pressed: {
     backgroundColor: '#cccccc',
+  },
+  userContainer: {
+    position: 'absolute',
+    top: '100%',
+    width: '100%',
+    left: '5%',
+    right: '10%',
+    backgroundColor: '#cccccc',
+    borderRadius: 10,
+    padding: 4,
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 0.3,
+    alignItems: 'center',
+  },
+  userImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 40,
+    marginBottom: 5,
   },
 });
