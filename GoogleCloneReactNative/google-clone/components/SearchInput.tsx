@@ -3,7 +3,7 @@ import {Image, StyleSheet, TextInput, View} from 'react-native';
 
 interface SearchInputProp {
   searchInput: string;
-  handleSearchInputChange: (searchInput: string) => void;
+  handleSearchInputChange?: (searchInput: string) => void;
   handleSubmit?: () => void;
 }
 export default function SearchInput({
@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     alignItems: 'center',
-    //justifyContent: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
