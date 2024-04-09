@@ -1,5 +1,6 @@
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {AuthContext} from '../../context/AuthContext';
 
 interface CustomButtonProps {
   title: string;
@@ -16,6 +17,7 @@ export default function CustomButton({
   signIn,
   userOption,
 }: CustomButtonProps) {
+  const {userPhoto} = useContext(AuthContext);
   return (
     <View>
       {!signIn ? (
@@ -39,7 +41,9 @@ export default function CustomButton({
         <Pressable onPress={userOption}>
           <Image
             style={styles.userContainer}
-            source={require('../../assets/user.jpeg')}
+            source={
+              userPhoto ? {uri: userPhoto} : require('../../assets/user.png')
+            }
           />
         </Pressable>
       )}
