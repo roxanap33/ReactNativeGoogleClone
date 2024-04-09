@@ -1,8 +1,11 @@
 import {useContext, useState} from 'react';
-import {Image, Modal, Pressable, StyleSheet, View} from 'react-native';
+import {Button, Image, Modal, Pressable, StyleSheet, View} from 'react-native';
+import auth from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import CustomButton from './ui/CustomButton';
 import AppsModal from './modal/AppsModal';
 import {ModalContext} from '../context/ModalContext';
+//import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 interface HeaderProp {
   isVisible: boolean;
@@ -13,7 +16,10 @@ export default function Header({isVisible}: HeaderProp) {
   const {modalIsVisible, showModal, hideModal} = useContext(ModalContext);
   const [signIn, setSignIn] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
-
+  GoogleSignin.configure({
+    webClientId:
+      '14017901318-03n3p1i9ao9o628j2qvre1aaglrrdhkn.apps.googleusercontent.com',
+  });
   function handleSignInPress() {
     setSignIn(prev => !prev);
   }
@@ -35,6 +41,26 @@ export default function Header({isVisible}: HeaderProp) {
     setImageIsPressed(false);
     hideModal();
   }
+  async function onGoogleButtonPress() {
+    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+    const {idToken} = await GoogleSignin.signIn();
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    try {
+      const userCredential = await auth().signInWithCredential(
+        googleCredential,
+      );
+      console.log('Signed in with Google!');
+      const user = userCredential.user;
+      console.log(user);
+      console.log(user.displayName);
+      console.log(user.email);
+      console.log(user.photoURL);
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
+    }
+  }
+
   return (
     <>
       {isVisible && (
@@ -56,11 +82,12 @@ export default function Header({isVisible}: HeaderProp) {
         closeModal={closeModal}
         setImageIsPressed={setImageIsPressed}
       />
-
       <CustomButton
         title="Sign In"
         isActive={false}
-        onPress={handleSignInPress}
+        onPress={() => {
+          handleSignInPress();
+        }}
         userOption={handleUserImagePress}
         signIn={signIn}
       />
