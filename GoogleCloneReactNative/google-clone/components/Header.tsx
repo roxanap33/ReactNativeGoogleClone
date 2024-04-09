@@ -1,8 +1,12 @@
 import {useContext, useState} from 'react';
-import {Image, Modal, Pressable, StyleSheet, View} from 'react-native';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
+
 import CustomButton from './ui/CustomButton';
-import AppsModal from './modal/AppsModal';
+
 import {ModalContext} from '../context/ModalContext';
+import {AuthContext} from '../context/AuthContext';
+import AppsModal from './apps-modal/AppsModal';
+import UserModal from './user-modal/UserModal';
 
 interface HeaderProp {
   isVisible: boolean;
@@ -11,18 +15,32 @@ interface HeaderProp {
 export default function Header({isVisible}: HeaderProp) {
   const [imageIsPressed, setImageIsPressed] = useState(false);
   const {modalIsVisible, showModal, hideModal} = useContext(ModalContext);
-  const [signIn, setSignIn] = useState(false);
-  const [showSignInModal, setShowSignInModal] = useState(false);
+  const [showUserModal, setShowUserModal] = useState(false);
+
+  const {
+    userSignedIn,
+    signInMethod,
+    signOutMethod: signOut,
+  } = useContext(AuthContext);
 
   function handleSignInPress() {
-    setSignIn(prev => !prev);
+    signInMethod();
   }
 
   function handleUserImagePress() {
-    setShowSignInModal(prev => !prev);
+    setShowUserModal(prev => !prev);
   }
 
-  function handleImagePress() {
+  function handleCloseUserModal() {
+    setShowUserModal(false);
+  }
+
+  function handleSignOutMethod() {
+    signOut();
+    setShowUserModal(false);
+  }
+
+  function handleAppsImagePress() {
     setImageIsPressed(prev => !prev);
     if (modalIsVisible) {
       hideModal();
@@ -31,14 +49,15 @@ export default function Header({isVisible}: HeaderProp) {
     }
   }
 
-  function closeModal() {
+  function closeAppsModal() {
     setImageIsPressed(false);
     hideModal();
   }
+
   return (
     <>
       {isVisible && (
-        <Pressable onPress={handleImagePress}>
+        <Pressable onPress={handleAppsImagePress}>
           {({pressed}) => (
             <View
               style={[
@@ -53,33 +72,25 @@ export default function Header({isVisible}: HeaderProp) {
       )}
 
       <AppsModal
-        closeModal={closeModal}
+        closeModal={closeAppsModal}
         setImageIsPressed={setImageIsPressed}
       />
-
       <CustomButton
         title="Sign In"
         isActive={false}
-        onPress={handleSignInPress}
+        onPress={() => {
+          handleSignInPress();
+        }}
         userOption={handleUserImagePress}
-        signIn={signIn}
+        signIn={userSignedIn}
       />
 
-      {showSignInModal && (
-        <View style={styles.userContainer}>
-          <Image
-            style={styles.userImage}
-            source={require('../assets/user.jpeg')}
-          />
-          <CustomButton
-            title="Sign Out"
-            isActive={false}
-            onPress={() => {
-              setSignIn(false);
-              setShowSignInModal(false);
-            }}
-          />
-        </View>
+      {showUserModal && (
+        <UserModal
+          modalClose={handleCloseUserModal}
+          modalSignOut={handleSignOutMethod}
+          showUserModal={showUserModal}
+        />
       )}
     </>
   );
@@ -91,35 +102,10 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-
     borderRadius: 25,
     marginHorizontal: 10,
   },
   pressed: {
     backgroundColor: '#cccccc',
-  },
-  userContainer: {
-    position: 'absolute',
-    alignItems: 'center',
-    top: '100%',
-    width: '100%',
-    left: '5%',
-    right: '10%',
-    backgroundColor: '#f2f2f2',
-    borderRadius: 10,
-    padding: 4,
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 0.3,
-  },
-  userImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 40,
-    marginBottom: 5,
   },
 });

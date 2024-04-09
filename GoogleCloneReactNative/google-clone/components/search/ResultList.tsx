@@ -40,7 +40,7 @@ export default function ResultList({results, searchInput}: ResultListProps) {
             )),
           )
       ) : (
-        <Text>No results</Text>
+        <Text>No results for your search yet.</Text>
       )}
     </ScrollView>
   );
