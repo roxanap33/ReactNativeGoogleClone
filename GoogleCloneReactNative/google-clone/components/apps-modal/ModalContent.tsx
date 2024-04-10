@@ -1,11 +1,6 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {ModalItem} from '../../util/types';
-
-interface ModalContentProps {
-  items: ModalItem[];
-  onPress: (link: string) => void;
-}
+import {ModalContentProps, ModalItem} from '../../util/types';
 
 export default function ModalContent({items, onPress}: ModalContentProps) {
   const renderItem = ({item}: {item: ModalItem}) => (

@@ -1,18 +1,13 @@
 import {useContext, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
-
 import CustomButton from './ui/CustomButton';
-
 import {ModalContext} from '../context/ModalContext';
 import {AuthContext} from '../context/AuthContext';
 import AppsModal from './apps-modal/AppsModal';
 import UserModal from './user-modal/UserModal';
+import {HeaderProp} from '../util/types';
 
-interface HeaderProp {
-  isVisible: boolean;
-}
-
-export default function Header({isVisible}: HeaderProp) {
+export default function Header({appsImgisVisible}: HeaderProp) {
   const [imageIsPressed, setImageIsPressed] = useState(false);
   const {modalIsVisible, showModal, hideModal} = useContext(ModalContext);
   const [showUserModal, setShowUserModal] = useState(false);
@@ -56,7 +51,7 @@ export default function Header({isVisible}: HeaderProp) {
 
   return (
     <>
-      {isVisible && (
+      {appsImgisVisible && (
         <Pressable onPress={handleAppsImagePress}>
           {({pressed}) => (
             <View

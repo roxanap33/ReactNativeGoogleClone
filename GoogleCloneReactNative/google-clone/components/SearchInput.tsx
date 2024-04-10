@@ -1,10 +1,6 @@
 import {Image, StyleSheet, TextInput, View, ViewStyle} from 'react-native';
+import {SearchInputProp} from '../util/types';
 
-interface SearchInputProp {
-  searchInput: string;
-  handleSearchInputChange: (searchInput: string) => void;
-  handleSubmit: () => void;
-}
 export default function SearchInput({
   searchInput,
   handleSearchInputChange,

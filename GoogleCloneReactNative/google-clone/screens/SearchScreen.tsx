@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
-
+import {useEffect, useState} from 'react';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
 import {StyleSheet, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import SearchInput from '../components/SearchInput';
 import Header from '../components/Header';
 import Logo from '../components/ui/Logo';
@@ -53,7 +52,7 @@ export default function SearchScreen({route, navigation}: any) {
             <Logo style={styles.logoImage} handlePress={handleLogoPress} />
           </View>
           <View>
-            <Header isVisible={false} />
+            <Header appsImgisVisible={false} />
           </View>
         </View>
 

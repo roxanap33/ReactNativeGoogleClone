@@ -1,14 +1,7 @@
-import {useContext, useState} from 'react';
+import {useContext} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {AuthContext} from '../../context/AuthContext';
-
-interface CustomButtonProps {
-  title: string;
-  isActive: boolean;
-  onPress?: () => void;
-  signIn?: boolean;
-  userOption?: () => void;
-}
+import {CustomButtonProps} from '../../util/types';
 
 export default function CustomButton({
   title,

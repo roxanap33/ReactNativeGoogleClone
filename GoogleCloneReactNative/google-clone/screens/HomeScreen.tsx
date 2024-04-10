@@ -1,12 +1,12 @@
-import React, {useCallback, useState} from 'react';
+import {useCallback, useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {Linking, StyleSheet, View} from 'react-native';
 import CustomButton from '../components/ui/CustomButton';
 import SearchInput from '../components/SearchInput';
 import Logo from '../components/ui/Logo';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 const allTab = 'all';
 const imagesTab = 'images';
@@ -55,7 +55,7 @@ export default function HomeScreen({navigation}: any) {
               />
             </View>
             <View style={styles.headerRight}>
-              <Header isVisible={true} />
+              <Header appsImgisVisible={true} />
             </View>
           </View>
         </SafeAreaView>

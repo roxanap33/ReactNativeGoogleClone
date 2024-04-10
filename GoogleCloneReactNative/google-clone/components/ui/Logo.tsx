@@ -1,17 +1,6 @@
 import React from 'react';
-import {
-  Image,
-  ImageStyle,
-  Pressable,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
-
-interface LogoProp {
-  style: ImageStyle;
-  handlePress?: () => void;
-}
+import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {LogoProp} from '../../util/types';
 
 export default function Logo({style, handlePress}: LogoProp) {
   return (
@@ -29,7 +18,5 @@ export default function Logo({style, handlePress}: LogoProp) {
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    //alignItems: 'center',
-    //justifyContent: 'center',
   },
 });
