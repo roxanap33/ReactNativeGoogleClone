@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from 'react';
+import {createContext, useEffect, useState} from 'react';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 
@@ -14,6 +14,7 @@ export const AuthContext = createContext({
   userSignedIn: false,
   signInMethod: async () => {},
   signOutMethod: async () => {},
+  isLoading: false,
 });
 
 export const AuthProvider = ({children}: any) => {
@@ -21,6 +22,7 @@ export const AuthProvider = ({children}: any) => {
   const [userEmail, setUserEmail] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
   const [userSignedIn, setUserSignedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(user => {
@@ -41,11 +43,12 @@ export const AuthProvider = ({children}: any) => {
   }, []);
 
   const signIn = async () => {
-    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-    const {idToken} = await GoogleSignin.signIn();
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    setIsLoading(true);
 
     try {
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+      const {idToken} = await GoogleSignin.signIn();
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
       const userCredential = await auth().signInWithCredential(
         googleCredential,
       );
@@ -55,9 +58,19 @@ export const AuthProvider = ({children}: any) => {
         setUserPhoto(userCredential.user.photoURL || '');
         setUserSignedIn(true);
       }
-      console.log('Signed in with Google!');
-    } catch (error) {
-      console.error('Error signing in with Google:', error);
+      console.log('Signed In with Google!');
+    } catch (error: any) {
+      if (error.code === '-5') {
+        console.log('User canceled the Sign In process.');
+      } else {
+        console.error('Error Signing in with Google:', error);
+      }
+    } finally {
+      const currentUser = auth().currentUser;
+      if (!currentUser) {
+        console.log('No user Signed In.');
+      }
+      setIsLoading(false);
     }
   };
 
@@ -78,6 +91,7 @@ export const AuthProvider = ({children}: any) => {
     userSignedIn: userSignedIn,
     signInMethod: signIn,
     signOutMethod: signOut,
+    isLoading: isLoading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

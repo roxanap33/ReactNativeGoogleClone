@@ -1,13 +1,8 @@
-import React, {useContext} from 'react';
+import {useContext} from 'react';
 import {Image, Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import CustomButton from '../ui/CustomButton';
 import {AuthContext} from '../../context/AuthContext';
-
-interface UserModalProps {
-  showUserModal: boolean;
-  modalSignOut: () => void;
-  modalClose: () => void;
-}
+import {UserModalProps} from '../../util/types';
 
 export default function UserModal({
   modalSignOut,
@@ -18,7 +13,7 @@ export default function UserModal({
 
   return (
     <Modal
-      animationType="slide"
+      animationType="none"
       transparent={true}
       visible={showUserModal}
       onRequestClose={modalClose}>

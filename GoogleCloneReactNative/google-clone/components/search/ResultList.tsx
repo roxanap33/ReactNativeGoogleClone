@@ -7,12 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {SearchResult} from '../../util/types';
-
-interface ResultListProps {
-  results: SearchResult[];
-  searchInput: string;
-}
+import {ResultListProps} from '../../util/types';
 
 export default function ResultList({results, searchInput}: ResultListProps) {
   function handleLinkPress(value: string) {
