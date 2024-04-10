@@ -6,6 +6,7 @@ import SearchInput from '../components/SearchInput';
 import Logo from '../components/ui/Logo';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const allTab = 'all';
 const imagesTab = 'images';
@@ -36,26 +37,28 @@ export default function HomeScreen({navigation}: any) {
   return (
     <View style={styles.rootContainer}>
       <View style={styles.screenContainer}>
-        <View style={styles.headerContainer}>
-          <View style={styles.headerLeft}>
-            <CustomButton
-              title={allTab.toUpperCase()}
-              isActive={activeTab === allTab.toUpperCase()}
-              onPress={() => handleTabPress(allTab.toUpperCase())}
-            />
-            <CustomButton
-              title={imagesTab.toUpperCase()}
-              isActive={activeTab === imagesTab.toUpperCase()}
-              onPress={() => {
-                handleTabPress(imagesTab.toUpperCase());
-                Linking.openURL('https://www.google.com/imghp?hl=ro&ogbl');
-              }}
-            />
+        <SafeAreaView>
+          <View style={styles.headerContainer}>
+            <View style={styles.headerLeft}>
+              <CustomButton
+                title={allTab.toUpperCase()}
+                isActive={activeTab === allTab.toUpperCase()}
+                onPress={() => handleTabPress(allTab.toUpperCase())}
+              />
+              <CustomButton
+                title={imagesTab.toUpperCase()}
+                isActive={activeTab === imagesTab.toUpperCase()}
+                onPress={() => {
+                  handleTabPress(imagesTab.toUpperCase());
+                  Linking.openURL('https://www.google.com/imghp?hl=ro&ogbl');
+                }}
+              />
+            </View>
+            <View style={styles.headerRight}>
+              <Header isVisible={true} />
+            </View>
           </View>
-          <View style={styles.headerRight}>
-            <Header isVisible={true} />
-          </View>
-        </View>
+        </SafeAreaView>
         <View style={styles.logoContainer}>
           <Logo style={styles.logoImage} />
         </View>
@@ -79,8 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   screenContainer: {
-    //flex: 1,
-    marginVertical: 20,
+    marginVertical: 10,
     marginHorizontal: 10,
   },
   headerContainer: {
@@ -128,6 +130,5 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     alignItems: 'center',
-    marginBottom: 20,
   },
 });

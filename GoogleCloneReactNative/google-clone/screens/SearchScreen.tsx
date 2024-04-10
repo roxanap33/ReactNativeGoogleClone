@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
 import firestore from '@react-native-firebase/firestore';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import SearchInput from '../components/SearchInput';
 import Header from '../components/Header';
 import Logo from '../components/ui/Logo';
@@ -10,12 +11,9 @@ import {SearchResult} from '../util/types';
 
 export default function SearchScreen({route, navigation}: any) {
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [searchInput, setSearchInput] = useState(
-    route.params?.searchInput || '',
-  );
-  const [submittedSearch, setSubmittedSearch] = useState(
-    route.params?.searchInput || '',
-  );
+  const searchValue = route.params?.searchInput || '';
+  const [searchInput, setSearchInput] = useState(searchValue);
+  const [submittedSearch, setSubmittedSearch] = useState(searchValue);
 
   useEffect(() => {
     if (submittedSearch) {
@@ -48,35 +46,39 @@ export default function SearchScreen({route, navigation}: any) {
   }
 
   return (
-    <View style={styles.rootContainer}>
-      <View style={styles.headerContainer}>
-        <View style={{marginLeft: '40%'}}>
-          <Logo style={styles.logoImage} handlePress={handleLogoPress} />
+    <SafeAreaView style={styles.safeAreaView}>
+      <View style={styles.rootContainer}>
+        <View style={styles.headerContainer}>
+          <View style={styles.logoContainer}>
+            <Logo style={styles.logoImage} handlePress={handleLogoPress} />
+          </View>
+          <View>
+            <Header isVisible={false} />
+          </View>
         </View>
-        <View>
-          <Header isVisible={false} />
+
+        <View style={styles.searchContainer}>
+          <SearchInput
+            searchInput={searchInput}
+            handleSearchInputChange={handleSearch}
+            handleSubmit={handleSearchSubmit}
+          />
+        </View>
+        <View style={styles.resultsContainer}>
+          {results && (
+            <ResultList results={results} searchInput={submittedSearch} />
+          )}
         </View>
       </View>
-      <View style={styles.searchContainer}>
-        <SearchInput
-          searchInput={searchInput}
-          handleSearchInputChange={handleSearch}
-          handleSubmit={handleSearchSubmit}
-        />
-      </View>
-      <View style={styles.resultsContainer}>
-        {results && (
-          <ResultList results={results} searchInput={submittedSearch} />
-        )}
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeAreaView: {flex: 1},
   rootContainer: {
     flex: 1,
-    marginVertical: 20,
+    marginVertical: 10,
     marginHorizontal: 10,
   },
   headerContainer: {
@@ -84,6 +86,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
     justifyContent: 'space-between',
+  },
+  logoContainer: {
+    marginLeft: '40%',
   },
   logoImage: {
     width: 100,
@@ -95,5 +100,6 @@ const styles = StyleSheet.create({
   resultsContainer: {
     flex: 1,
     marginTop: 0,
+    marginHorizontal: 10,
   },
 });
