@@ -13,7 +13,7 @@ export default function UserModal({
 
   return (
     <Modal
-      animationType="slide"
+      animationType="none"
       transparent={true}
       visible={showUserModal}
       onRequestClose={modalClose}>

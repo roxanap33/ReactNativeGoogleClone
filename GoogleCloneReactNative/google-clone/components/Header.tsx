@@ -1,5 +1,11 @@
 import {useContext, useState} from 'react';
-import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
 import CustomButton from './ui/CustomButton';
 import {ModalContext} from '../context/ModalContext';
 import {AuthContext} from '../context/AuthContext';
@@ -12,11 +18,8 @@ export default function Header({appsImgisVisible}: HeaderProp) {
   const {modalIsVisible, showModal, hideModal} = useContext(ModalContext);
   const [showUserModal, setShowUserModal] = useState(false);
 
-  const {
-    userSignedIn,
-    signInMethod,
-    signOutMethod: signOut,
-  } = useContext(AuthContext);
+  const {userSignedIn, signInMethod, signOutMethod, isLoading} =
+    useContext(AuthContext);
 
   function handleSignInPress() {
     signInMethod();
@@ -31,7 +34,7 @@ export default function Header({appsImgisVisible}: HeaderProp) {
   }
 
   function handleSignOutMethod() {
-    signOut();
+    signOutMethod();
     setShowUserModal(false);
   }
 
@@ -47,6 +50,26 @@ export default function Header({appsImgisVisible}: HeaderProp) {
   function closeAppsModal() {
     setImageIsPressed(false);
     hideModal();
+  }
+
+  let signInContent = (
+    <CustomButton
+      title="Sign In"
+      isActive={false}
+      onPress={() => {
+        handleSignInPress();
+      }}
+      userOption={handleUserImagePress}
+      signIn={userSignedIn}
+    />
+  );
+
+  if (isLoading) {
+    signInContent = (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="small" color="#1a73e8" />
+      </View>
+    );
   }
 
   return (
@@ -70,15 +93,8 @@ export default function Header({appsImgisVisible}: HeaderProp) {
         closeModal={closeAppsModal}
         setImageIsPressed={setImageIsPressed}
       />
-      <CustomButton
-        title="Sign In"
-        isActive={false}
-        onPress={() => {
-          handleSignInPress();
-        }}
-        userOption={handleUserImagePress}
-        signIn={userSignedIn}
-      />
+
+      {signInContent}
 
       {showUserModal && (
         <UserModal
@@ -102,5 +118,9 @@ const styles = StyleSheet.create({
   },
   pressed: {
     backgroundColor: '#cccccc',
+  },
+  loaderContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

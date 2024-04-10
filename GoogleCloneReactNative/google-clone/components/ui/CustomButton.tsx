@@ -11,6 +11,7 @@ export default function CustomButton({
   userOption,
 }: CustomButtonProps) {
   const {userPhoto} = useContext(AuthContext);
+
   return (
     <View>
       {!signIn ? (
