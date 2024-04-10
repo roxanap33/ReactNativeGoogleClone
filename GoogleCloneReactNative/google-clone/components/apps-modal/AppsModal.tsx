@@ -2,7 +2,7 @@ import {useContext} from 'react';
 import {Linking, Modal, Pressable, StyleSheet, View} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import ModalContent from './ModalContent';
-import {modalItems} from '../../util/constatnts';
+import {modalItems} from '../../util/constants';
 import {ModalContext} from '../../context/ModalContext';
 import {AppsModalProps} from '../../util/types';
 
